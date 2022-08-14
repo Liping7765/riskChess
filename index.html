@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RISK裁判</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+
+     function myFunction(){
+        // const eles = document.getElementsByClassName('chess');
+
+        // for (let i = 0; i < eles.length; i++) {
+        //     eles[i].addEventListener('click',(e)=>{
+
+        //        e.target.classList.add("selected");
+        //        console.log(e.target);
+
+        //         const eles = document.getElementsByClassName(e.target.classList[1]);
+        //         for (let i = 0; i < eles.length; i++) {
+        //             eles[i].classList.add("hide");
+        //         }
+
+        //     })
+        // }
+
+        var attackers = Number.parseInt(document.getElementById("attacker").value);
+        var defenders = Number.parseInt(document.getElementById("defender").value);
+
+        var display = document.getElementById("battleInfo");
+
+        while(attackers > 0 && defenders > 0){
+
+                var sizeOfA = attackers >= 3 ? 3: attackers;
+                var sizeOfD = defenders >= 2 ? 2 : defenders;
+                
+                var attackResults = rollDice(sizeOfA);
+                var defendResults = rollDice(sizeOfD);
+
+                display.innerHTML += "<div class= 'roundInfo'>For Attackers : " + attackResults + "</div>";
+                display.innerHTML += "<div class= 'roundInfo'>For Defenders : " + defendResults + "</div>";
+
+                var {deathOfAttackers, deathOfDefenders} = battle(attackResults, defendResults);
+
+                display.innerHTML += `<div class= 'roundInfo'>Result is that ${ deathOfAttackers } attackers died, 
+                and ${deathOfDefenders} defenders died</div>`;
+
+                display.innerHTML += "<div class= 'roundInfo'>continue....</div><br>";
+
+                //substract the number of troops died 
+                attackers -= deathOfAttackers;
+                defenders -= deathOfDefenders;
+
+        }
+
+        display.innerHTML = `<div id = "final">Final result is that ${attackers} 
+            attackers left, and ${defenders} defenders left</div><br>` 
+            + "<div class='roundInfo'>details are below: </div>"
+            +display.innerHTML;
+
+     }
+
+
+     //return battle results 
+     function battle(attackers, defenders){
+        var deathOfAttackers = 0;
+        var deathOfDefenders = 0; 
+        var a = 0, d = 0;
+        while(a < attackers.length && d < defenders.length){
+
+            if(attackers[a] <= defenders[d]){
+                deathOfAttackers++;
+            }
+            else{
+                deathOfDefenders++;
+            }
+
+            //move the pointer forward by one 
+            a++;
+            d++;
+
+        }
+        return { deathOfAttackers, deathOfDefenders};
+     }
+
+     //function to generate randome dices results 
+     function rollDice(num){
+        var array = [];
+        for(i = 0; i < num; i++){
+            array.push(Math.floor(Math.random() * (7 - 1) + 1));
+        }
+        return array.sort().reverse();
+     }
+
+    </script>
+</head>
+
+<body>
+    <div id="input">
+
+    <img src="https://i.ytimg.com/vi/CCJnRJDdmTw/maxresdefault.jpg"/>
+    <input id='attacker' type="number" placeholder="输入攻击方的人数" />
+    <input id='defender' type="number" placeholder="输入防守方的人数"/>
+    <button onclick="myFunction()">开始战斗</button>
+    <button onclick="location.reload()">刷新</button>
+    </div>
+
+    <div id="battleInfo"></div>
+</body>
+
+</html>
