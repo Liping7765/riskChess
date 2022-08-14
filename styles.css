@@ -55,7 +55,17 @@ button{
     color: black;
 }
 
-#final {
-    color: red;
+#final{
+    color: tomato;
     font-size: large;
+    background-color: black;
+    margin-top: 10px;
+    margin-left: 40%;
+    margin-right: 40%;
+}
+
+.adjusted{
+    margin-top: 10px;
+    width: 60%;
+    max-width: 300px;
 }

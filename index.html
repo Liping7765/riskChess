@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RISK裁判</title>
     <link rel="stylesheet" href="styles.css">
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon|outline|emboss|shadow-multiple">
     <script>
 
      function myFunction(){
@@ -31,8 +31,10 @@
         
 
         var display = document.getElementById("battleInfo");
-        display.innerHTML = "<img src='https://media1.giphy.com/media/3oEjI1erPMTMBFmNHi/giphy.gif'/>";
+        display.innerHTML = "<img class='adjusted' src='https://media1.giphy.com/media/3oEjI1erPMTMBFmNHi/giphy.gif'/>"
+       
 
+        var tempInnerHtml = "";
 
         while(attackers > 0 && defenders > 0){
 
@@ -42,15 +44,15 @@
                 var attackResults = rollDice(sizeOfA);
                 var defendResults = rollDice(sizeOfD);
 
-                display.innerHTML += "<div class= 'roundInfo'>For Attackers : " + attackResults + "</div>";
-                display.innerHTML += "<div class= 'roundInfo'>For Defenders : " + defendResults + "</div>";
+                tempInnerHtml += "<div class= 'roundInfo'>For Attackers : " + attackResults + "</div>";
+                tempInnerHtml += "<div class= 'roundInfo'>For Defenders : " + defendResults + "</div>";
 
                 var {deathOfAttackers, deathOfDefenders} = battle(attackResults, defendResults);
 
-                display.innerHTML += `<div class= 'roundInfo'>Result is that ${ deathOfAttackers } attackers died, 
+                tempInnerHtml += `<div class= 'roundInfo'>Result is that ${ deathOfAttackers } attackers died, 
                 and ${deathOfDefenders} defenders died</div>`;
 
-                display.innerHTML += "<div class= 'roundInfo'>continue....</div><br>";
+                tempInnerHtml += "<div class= 'roundInfo'>continue....</div><br>";
 
                 //substract the number of troops died 
                 attackers -= deathOfAttackers;
@@ -58,10 +60,17 @@
 
         }
 
-        display.innerHTML = `<div id = "final">Final result is that ${attackers} 
+        setTimeout(()=>{
+          
+            tempInnerHtml = `<div id ="final">Final result => ${attackers} 
             attackers left, and ${defenders} defenders left</div><br>` 
             + "<div class='roundInfo'>details are below: </div>"
-            +display.innerHTML;
+            + tempInnerHtml;
+
+            display.innerHTML = tempInnerHtml;
+        }, 2500);
+
+
 
      }
 
